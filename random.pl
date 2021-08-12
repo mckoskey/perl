@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 #
-# Name: timer.pl
+# Name: random.pl
 # Date: 9 June, 2011
 # Author: David McKoskey
 
@@ -20,7 +20,7 @@
 
 =item *
 
-Name: timer.pl
+Name: random.pl
 
 =item *
 
@@ -32,7 +32,7 @@ Author: David McKoskey
 
 =head2 Purpose
 
-Time the execution of another application.  
+Generate a random number.  
 
 
 
@@ -48,7 +48,7 @@ Time the execution of another application.
     </tr>
     <tr>
         <td>David McKoskey</td>
-        <td>June 9, 2011</td>
+        <td>June 9, 1998</td>
         <td>Initial Revision</td>
     </tr>
     <tr>
@@ -65,6 +65,8 @@ Time the execution of another application.
 
 =end html
 
+=head2 Functions
+
 =cut
 
 
@@ -72,23 +74,49 @@ if($#ARGV < 0) { Syntax(); exit 0; }
 
 use strict;
 use warnings;
+use vars qw($opt_s $opt_e);
+use Getopt::Std;
+getopts('s:e:');
 
-my $command;
+my ($start, $end);
+my %used;
+my @results;
 
-while (@ARGV)
+my $number = shift @ARGV;
+
+if($opt_s) { $start = $opt_s; } else { $start = 0; }
+if($opt_e) { $end   = $opt_e; } else { $end   = $number; }
+
+my $range = abs($start - $end);
+
+print "Random numbers from " . $start . " to " . $end . "\n";
+
+while ($#results < $number - 1 && $#results < $range - 1)
 {
-	$command = $command . shift @ARGV;
-	if($#ARGV >= 0) { $command = $command . " "; }
+	my $random = abs(int(rand() * $range));
+
+	if(!$used{$random})
+	{
+		$used{$random}++;
+		push(@results, $random);
+		print "\t" . $random . "\t" . dec2bin($random) . "\n";
+	}
 }
 
-print " Executing: \"" . $command . "\"\n";
-print "     Start: ";
-print scalar localtime; # UNIX-style time
-print "\n";
-system($command);
-print "       End: ";
-print scalar localtime; # UNIX-style time
-print "\n";
+
+=pod
+
+=head4 dec2bin()
+
+Convert decimal numbers to binary.  Pilfered directly from The Perl Cookbook (Christiansen & Torkington, 1998).  
+
+=cut
+sub dec2bin
+{
+	my $str = unpack("B32", pack("N", shift));
+	$str =~ s/^0+(?=\d)//;
+	return $str;
+}
 
 
 =pod
@@ -102,9 +130,10 @@ sub Syntax
 {
 	print "\n";
 	print "    ";
-	print "timer <command>";
+	print "syntax: random [-s <start>] [-e <end>] <number>";
 	print "\n";
 }
+
 
 =pod
 

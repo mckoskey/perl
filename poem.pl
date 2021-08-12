@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 #
-# Name: subsection.pl
+# Name: poem.pl
 # Date: 14 June, 2011
 # Author: David McKoskey
 
@@ -20,7 +20,7 @@
 
 =item *
 
-Name: subsection.pl
+Name: poem.pl
 
 =item *
 
@@ -32,7 +32,7 @@ Author: David McKoskey
 
 =head2 Purpose
 
-Create a LaTeX subsection page.
+Create a template LaTeX poem page.  
 
 
 
@@ -79,6 +79,8 @@ use Carp;
 use English;
 use IO::File;
 use Utilities;
+use File::Basename;
+my @extensions = qw(.tex);
 
 if($#ARGV < 0) { Syntax(); }
 
@@ -112,13 +114,43 @@ foreach my $filename (@infiles)
 		next;
 	}
 
-	my $file = IO::File->new($filename, ">") or croak "Unable to open \"" . $filename . "\": " . $OS_ERROR;
+    my($name, $path, $extension) = fileparse($filename, @extensions);
 
-	print $file "% " . $util->get_print_date() . "\n";
-    print $file "% \\subsection[" . $util->get_title($filename) . "]{" . $util->get_title($filename) . "}\\label{subsec:" . $util->get_label ($filename) . "}\n";
-	print $file "\\subsection{" . $util->get_title($filename) . "}\n";
+    my @names = split /_/, $name;
+
+    my $poemtitle;
+
+    for(my $i = 0; $i <= $#names; $i++)
+    {
+        $poemtitle .= ucfirst($names[$i]);
+
+        if($i < $#names)
+        {
+            $poemtitle .= " ";
+        }
+    }
+
+	my $file = IO::File->new($filename, ">") or croak "Unable to open file \"" . $filename . "\": " . $OS_ERROR;
+
+	print $file "% Document: " . $filename . "\n";
+	print $file "% Date: " . $util->get_print_date() . "\n";
+	print $file "% Author: David McKoskey\n";
 	print $file "\n";
+	print $file "\\begin{poem}\n";
+	print $file "\\poemtitle{" . $poemtitle . "}\n";
 	print $file "\n";
+	print $file "\\begin{poemdedication}\n";
+	print $file "\\end{poemdedication}\n";
+	print $file "\n";
+	print $file "\\begin{stanza}\n";
+	print $file "\\end{stanza}\n";
+	print $file "\n";
+	print $file "\\begin{stanza}\n";
+	print $file "\\end{stanza}\n";
+	print $file "\n";
+	print $file "\\begin{stanza}\n";
+	print $file "\\end{stanza}\n";
+	print $file "\\end{poem}\n";
 
 	close($file);
 
@@ -136,13 +168,12 @@ When the script is executed without any parameters, this function displays scrip
 sub Syntax
 {
 	print "\n";
-	print "\tSyntax: subsection <filename(s)>\n";
+	print "\tSyntax: poem <filename(s)>\n";
 	print "\n";
 	print "\tNote: do not use wildcards\n";
 	print "\n";
 	exit -1;
 }
-
 
 =pod
 

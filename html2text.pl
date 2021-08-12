@@ -1,5 +1,4 @@
 #!/usr/bin/perl
-
 if($#ARGV < 0) { Syntax(); }
 
 use strict;

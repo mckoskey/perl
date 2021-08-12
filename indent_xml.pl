@@ -4,6 +4,72 @@
 # Date: October 16, 2009
 # Author: David McKoskey
 
+=pod
+
+=begin html
+
+<blockquote>
+
+=end html
+
+
+
+=head2 Synopsis
+
+=over 4
+
+=item *
+
+Name: indent_xml.pl
+
+=item *
+
+Author: David McKoskey
+
+=back
+
+
+
+=head2 Purpose
+
+Indent XML tags and output text.
+
+
+
+=head2 Revision History
+
+=begin html
+
+<table border="1" style="border-collapse : collapse" cellpadding="10">
+    <tr>
+        <th bgcolor="tan">Name</th>
+        <th bgcolor="tan">Date</th>
+        <th bgcolor="tan">Description</th>
+    </tr>
+    <tr>
+        <td>David McKoskey</td>
+        <td>August 26, 1998</td>
+        <td>Initial Revision</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+</table>
+
+=end html
+
+=head2 Functions
+
+=cut
+
+
 use strict;
 use warnings;
 use lib qw(c:/bin/perl c:/env/bin/perl /home/mckoskey/bin/perl);
@@ -91,6 +157,13 @@ foreach my $infilename (@{$infiles_ref})
 }
 
 
+=pod
+
+=head4 start_handler()
+
+Handle XML start tags.
+
+=cut
 sub start_handler
 {
     my ($parser, $current, %attributes) = @_;
@@ -121,6 +194,13 @@ sub start_handler
 }
 
 
+=pod
+
+=head4 end_handler()
+
+Handle XML end tags
+
+=cut
 sub end_handler
 {
     my $parser = shift;
@@ -137,6 +217,13 @@ sub end_handler
 }
 
 
+=pod
+
+=head4 char_handler()
+
+Handle XML text
+
+=cut
 sub char_handler
 {
     my $parser = shift;
@@ -163,6 +250,13 @@ sub char_handler
 }
 
 
+=pod
+
+=head4 default_handler()
+
+Handle anything the other handlers don't.
+
+=cut
 sub default_handler
 {
     my $parser = shift;
@@ -189,6 +283,13 @@ sub default_handler
 }
 
 
+=pod
+
+=head4 syntax()
+
+When the script is executed without any parameters, this function displays script syntax.
+
+=cut
 sub syntax
 {
     print "\n";
@@ -203,6 +304,16 @@ sub syntax
     print "\n";
 }
 
+
+=pod
+
+=begin html
+
+</blockquote>
+
+=end html
+
+=cut
 
 #
 # end script

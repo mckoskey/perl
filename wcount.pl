@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 #
-# Name: timer.pl
+# Name: wcount.pl
 # Date: 9 June, 2011
 # Author: David McKoskey
 
@@ -20,7 +20,7 @@
 
 =item *
 
-Name: timer.pl
+Name: wcount.pl
 
 =item *
 
@@ -32,7 +32,7 @@ Author: David McKoskey
 
 =head2 Purpose
 
-Time the execution of another application.  
+Count the number of words and lines in a file.  
 
 
 
@@ -65,30 +65,55 @@ Time the execution of another application.
 
 =end html
 
+=head2 Functions
+
 =cut
 
 
-if($#ARGV < 0) { Syntax(); exit 0; }
+if($#ARGV < 0) { syntax(); exit 0; }
 
 use strict;
 use warnings;
 
-my $command;
+use Carp;
+use English;
+use IO::File;
 
-while (@ARGV)
+my @infiles = glob($ARGV[0]);
+my ($totalcharcount, $totallinecount, $totalwordcount);
+
+foreach my $infile (@infiles)
 {
-	$command = $command . shift @ARGV;
-	if($#ARGV >= 0) { $command = $command . " "; }
+	my $linecount = 0;
+	my $wordcount = 0;
+	my $charcount = 0;
+
+	my $file = IO::File->new($infile, "<") or croak "Unable to open file \"" . $infile . "\": " . $OS_ERROR;
+
+	while(my $line = <$file>)
+	{
+		chomp($line);
+		my @words = split /\s+/, $line;	
+
+		foreach my $word (@words)
+		{
+			$charcount += length($word);
+			$totalcharcount += length($word);
+
+			$wordcount++;
+			$totalwordcount++;
+		}
+
+		$linecount++;
+		$totallinecount++;
+	}
+
+	close ($file);
+
+	print " $infile:\n\tchars = $charcount\n\tlines = $linecount\n\twords = $wordcount\n\n";
 }
 
-print " Executing: \"" . $command . "\"\n";
-print "     Start: ";
-print scalar localtime; # UNIX-style time
-print "\n";
-system($command);
-print "       End: ";
-print scalar localtime; # UNIX-style time
-print "\n";
+print " Total:\n\tchars = $totalcharcount\n\tlines = $totallinecount\n\twords = $totalwordcount\n\n";
 
 
 =pod
@@ -98,13 +123,14 @@ print "\n";
 When the script is executed without any parameters, this function displays script syntax.
 
 =cut
-sub Syntax
+sub syntax
 {
 	print "\n";
 	print "    ";
-	print "timer <command>";
+	print "syntax: wcount <filename(s)>\n";
 	print "\n";
 }
+
 
 =pod
 

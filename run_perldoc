@@ -1,0 +1,17 @@
+#!/bin/bash
+
+perl make_pod.pl *.pl
+
+cd .\html
+
+del /q index.html
+
+perl ..\makeindex.pl
+
+cd ..
+
+perl pod_postproc.pl .\html\*.html > temp.bat
+
+call temp
+
+del temp.bat

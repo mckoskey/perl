@@ -5,6 +5,71 @@ package Utilities;
 # Author: David McKoskey
 # Purpose: miscellaneous functions used in numerous scripts
 
+=pod
+
+=begin html
+
+<blockquote>
+
+=end html
+
+
+
+=head2 Synopsis
+
+=over 4
+
+=item *
+
+Name: Utilities.pm
+
+=item *
+
+Author: David McKoskey
+
+=back
+
+
+
+=head2 Purpose
+
+Miscellaneous functions used in numerous scripts
+
+
+
+=head2 Revision History
+
+=begin html
+
+<table border="1" style="border-collapse : collapse" cellpadding="10">
+    <tr>
+        <th bgcolor="tan">Name</th>
+        <th bgcolor="tan">Date</th>
+        <th bgcolor="tan">Description</th>
+    </tr>
+    <tr>
+        <td>David McKoskey</td>
+        <td>February 24, 2009</td>
+        <td>Initial Revision</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+</table>
+
+=end html
+
+=head2 Functions
+
+=cut
+
 
 use strict;
 use warnings;
@@ -19,6 +84,13 @@ my %random_numbers;
 my %indexes;
 
 
+=pod
+
+=head4 ()
+
+Package constructor.  Follows the Java object construction syntax.  
+
+=cut
 sub new
 {
 	my $package = shift;
@@ -32,6 +104,13 @@ sub new
 }
 
 
+=pod
+
+=head4 test_var ()
+
+Test a variable to see if it's been defined() and has length greater than 0.
+
+=cut
 sub test_var
 {
     my $self = shift;
@@ -48,6 +127,13 @@ sub test_var
 }
 
 
+=pod
+
+=head4 trim ()
+
+Trim whitespace from a string variable.
+
+=cut
 sub trim
 {
     my $self = shift;
@@ -63,6 +149,13 @@ sub trim
 }
 
 
+=pod
+
+=head4 tighten ()
+
+Trim whitespace from a string variable, and change all internal white space to single spaces.
+
+=cut
 sub tighten
 {
     my $self = shift;
@@ -82,6 +175,13 @@ sub tighten
 }
 
 
+=pod
+
+=head4 ucfirst_all ()
+
+Change all elements in a space delimited string to upper case initial.  
+
+=cut
 sub ucfirst_all
 {
     my $self = shift;
@@ -109,6 +209,13 @@ sub ucfirst_all
 }
 
 
+=pod
+
+=head4 crunch ()
+
+Remove all whitespace from a string.  
+
+=cut
 sub crunch
 {
     my $self = shift;
@@ -128,6 +235,13 @@ sub crunch
 }
 
 
+=pod
+
+=head4 get_print_date ()
+
+Get the current date in a nice, printable format.  
+
+=cut
 sub get_print_date
 {
     my $self = shift;
@@ -143,6 +257,13 @@ sub get_print_date
 }
 
 
+=pod
+
+=head4 get_short_date ()
+
+Get a short version of the current date: MM-DD-YYYY
+
+=cut
 sub get_short_date
 {
     my $self = shift;
@@ -158,6 +279,13 @@ sub get_short_date
 }
 
 
+=pod
+
+=head4 get_file_timestamp ()
+
+Get a version of the current date usable for files: MMDDYYYYHHMiSS
+
+=cut
 sub get_file_timestamp
 {
     my $self = shift;
@@ -176,6 +304,13 @@ sub get_file_timestamp
 }
 
 
+=pod
+
+=head4 get_file_date ()
+
+Get a version of the current date usable for files: MMDDYYYY
+
+=cut
 sub get_file_date
 {
     my $self = shift;
@@ -191,6 +326,13 @@ sub get_file_date
 }
 
 
+=pod
+
+=head4 get_title ()
+
+Change a file name string into a file title with the same words.  
+
+=cut
 sub get_title
 {
     my $self = shift;
@@ -216,6 +358,13 @@ sub get_title
 }
 
 
+=pod
+
+=head4 get_title ()
+
+Change a file name string into a file title with the same words.  
+
+=cut
 sub get_label
 {
     my $self = shift;
@@ -236,6 +385,13 @@ sub get_label
 }
 
 
+=pod
+
+=head4 ()
+
+Get a list of input files from the @ARGV array.  
+
+=cut
 sub get_infiles_from_argv
 {
     my $self = shift;
@@ -261,6 +417,13 @@ sub get_infiles_from_argv
 }
 
 
+=pod
+
+=head4 ()
+
+Get an array of input files from a text file (list).
+
+=cut
 sub get_infiles_from_list
 {
     my $self = shift;
@@ -289,6 +452,13 @@ sub get_infiles_from_list
 }
 
 
+=pod
+
+=head4 ()
+
+Print an HTML table to an open output file handle.  Data source is an array of arrays.  
+
+=cut
 sub html_table
 {
     my $self = shift;
@@ -313,6 +483,13 @@ sub html_table
 }
 
 
+=pod
+
+=head4 ()
+
+Pause the execution of a console-run script and await input (a carriage return).  
+
+=cut
 sub pause
 {
     my $self = shift;
@@ -329,6 +506,13 @@ sub pause
 }
 
 
+=pod
+
+=head4 ()
+
+Generate a random number.  Keeps track of which random numbers have already been given.  
+
+=cut
 sub random_number
 {
     my $self = shift;
@@ -349,6 +533,13 @@ sub random_number
 }
 
 
+=pod
+
+=head4 ()
+
+Get an index number (unsigned integer).  Keeps trakc of the indexes already given.  
+
+=cut
 sub get_index
 {
     my $self = shift;
@@ -367,6 +558,13 @@ sub get_index
 }
 
 
+=pod
+
+=head4 ()
+
+Get the size of an array.  
+
+=cut
 sub get_array_size
 {
     my $self = shift;
@@ -398,6 +596,13 @@ sub is_in_array
 }
 
 
+=pod
+
+=head4 ()
+
+Get the size of a hash table.  
+
+=cut
 sub get_hash_size
 {
     my $self = shift;
@@ -414,6 +619,13 @@ sub get_hash_size
 }
 
 
+=pod
+
+=head4 ()
+
+Right-pad a string.
+
+=cut
 sub rpad
 {
     my $self = shift;
@@ -444,6 +656,13 @@ sub rpad
 }
 
 
+=pod
+
+=head4 ()
+
+Left-pad a string.
+
+=cut
 sub lpad
 {
     my $self = shift;
@@ -474,6 +693,13 @@ sub lpad
 }
 
 
+=pod
+
+=head4 ()
+
+Determine if the current application is a console application and can therefore be used interactively (on the command line).  Taken from _Perl Best Practices_ by Damian Conway (O'Reilly Press).  
+
+=cut
 sub is_interactive
 {
     my $self = shift;
@@ -501,6 +727,13 @@ sub is_interactive
 }
 
 
+=pod
+
+=head4 ()
+
+Write a string to a specified file name.
+
+=cut
 sub write_file
 {
     my $self         = shift;
@@ -514,6 +747,15 @@ sub write_file
 
 1;
 
+=pod
+
+=begin html
+
+</blockquote>
+
+=end html
+
+=cut
 
 #
 # end package

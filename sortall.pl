@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 #
-# Name: timer.pl
+# Name: sortall.pl
 # Date: 9 June, 2011
 # Author: David McKoskey
 
@@ -20,7 +20,7 @@
 
 =item *
 
-Name: timer.pl
+Name: sortall.pl
 
 =item *
 
@@ -32,7 +32,7 @@ Author: David McKoskey
 
 =head2 Purpose
 
-Time the execution of another application.  
+Sort a collection of files.  
 
 
 
@@ -65,30 +65,54 @@ Time the execution of another application.
 
 =end html
 
+=head2 Functions
+
 =cut
 
-
-if($#ARGV < 0) { Syntax(); exit 0; }
 
 use strict;
 use warnings;
 
-my $command;
+use Carp;
+use English;
+use IO::File;
 
-while (@ARGV)
+my %lines;
+
+if($#ARGV < 0) { Syntax(); exit 0; }
+
+foreach my $filename (glob ($ARGV[0]))
 {
-	$command = $command . shift @ARGV;
-	if($#ARGV >= 0) { $command = $command . " "; }
-}
+	print "\tsorting " . $filename . "...\n";
 
-print " Executing: \"" . $command . "\"\n";
-print "     Start: ";
-print scalar localtime; # UNIX-style time
-print "\n";
-system($command);
-print "       End: ";
-print scalar localtime; # UNIX-style time
-print "\n";
+	my $file = IO::File($filename, "<") or croak "Unable to open \"" . $filename . "\": " . $OS_ERROR;
+
+	while(my $line = <$file>)
+	{
+		chomp($line);
+
+		next if length($line) == 0;
+
+		$lines{$line}++;
+	}
+
+	close($file);
+
+
+	$file = IO::File($filename, ">") or croak "Unable to open \"" . $filename . "\": " . $OS_ERROR;
+
+	foreach my $line (sort keys %lines)
+	{
+		for(my $i=0; $i < $lines{$line}; $i++)
+		{
+			print $file $line . "\n";
+		}
+	}
+
+	close($file);
+
+	undef %lines;
+}
 
 
 =pod
@@ -102,9 +126,10 @@ sub Syntax
 {
 	print "\n";
 	print "    ";
-	print "timer <command>";
+	print "syntax: sortall <filename(s)>";
 	print "\n";
 }
+
 
 =pod
 

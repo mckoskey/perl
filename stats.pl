@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 #
-# Name: timer.pl
-# Date: 9 June, 2011
+# Name: stats.pl
+# Date: 28 April, 1998
 # Author: David McKoskey
 
 =pod
@@ -20,7 +20,7 @@
 
 =item *
 
-Name: timer.pl
+Name: stats.pl
 
 =item *
 
@@ -32,7 +32,7 @@ Author: David McKoskey
 
 =head2 Purpose
 
-Time the execution of another application.  
+Compute mean and standard deviation for an input sample.
 
 
 
@@ -48,7 +48,7 @@ Time the execution of another application.
     </tr>
     <tr>
         <td>David McKoskey</td>
-        <td>June 9, 2011</td>
+        <td>April 28, 1998</td>
         <td>Initial Revision</td>
     </tr>
     <tr>
@@ -65,30 +65,46 @@ Time the execution of another application.
 
 =end html
 
+=head2 Functions
+
 =cut
 
-
-if($#ARGV < 0) { Syntax(); exit 0; }
 
 use strict;
 use warnings;
 
-my $command;
+# check command line
+if ( $#ARGV <= 0 ) { syntax (); exit 0; }
 
-while (@ARGV)
+# compute average:
+my $n = $#ARGV + 1;   
+
+my $sumx = 0;
+
+for (my $i = 0; $i <= $n; $i++)
 {
-	$command = $command . shift @ARGV;
-	if($#ARGV >= 0) { $command = $command . " "; }
+    next unless defined($ARGV[$i]);
+
+    $sumx += $ARGV[$i];
 }
 
-print " Executing: \"" . $command . "\"\n";
-print "     Start: ";
-print scalar localtime; # UNIX-style time
-print "\n";
-system($command);
-print "       End: ";
-print scalar localtime; # UNIX-style time
-print "\n";
+my $mu = $sumx / $n;
+
+# compute standard dev.:
+my $sumsq = 0;
+
+for ( my $j = 0; $j <= $n; $j++ )
+{
+    next unless defined($ARGV[$j]);
+
+    $sumsq += ( ( $ARGV[$j] - $mu ) ** 2 );
+}
+
+my $sigma = sqrt ( $sumsq / $n );
+
+# report results
+printf("\n\t   Mu = $mu\n");
+printf("\tSigma = $sigma\n\n");
 
 
 =pod
@@ -98,13 +114,12 @@ print "\n";
 When the script is executed without any parameters, this function displays script syntax.
 
 =cut
-sub Syntax
+sub syntax
 {
-	print "\n";
-	print "    ";
-	print "timer <command>";
-	print "\n";
+	printf ("\n\tSyntax: stats <numbers>\n");
+	printf ("\t(numbers = data to be analyzed)\n\n");
 }
+
 
 =pod
 

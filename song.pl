@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 #
-# Name: subsection.pl
+# Name: song.pl
 # Date: 14 June, 2011
 # Author: David McKoskey
 
@@ -20,7 +20,7 @@
 
 =item *
 
-Name: subsection.pl
+Name: song.pl
 
 =item *
 
@@ -32,7 +32,7 @@ Author: David McKoskey
 
 =head2 Purpose
 
-Create a LaTeX subsection page.
+Create a LaTeX song page template.  
 
 
 
@@ -70,7 +70,6 @@ Create a LaTeX subsection page.
 =cut
 
 
-
 use strict;
 use warnings;
 use lib qw(c:/bin/perl c:/env/bin/perl /home/mckoskey/bin/perl);
@@ -79,6 +78,8 @@ use Carp;
 use English;
 use IO::File;
 use Utilities;
+use File::Basename;
+my @extensions = qw(.tex);
 
 if($#ARGV < 0) { Syntax(); }
 
@@ -112,13 +113,33 @@ foreach my $filename (@infiles)
 		next;
 	}
 
+    my($name, $path, $extension) = fileparse($filename, @extensions);
+
+    my @names = split /_/, $name;
+
+    my $songtitle;
+
+    for(my $i = 0; $i <= $#names; $i++)
+    {
+        $songtitle .= ucfirst($names[$i]);
+
+        if($i < $#names)
+        {
+            $songtitle .= " ";
+        }
+    }
+
+
 	my $file = IO::File->new($filename, ">") or croak "Unable to open \"" . $filename . "\": " . $OS_ERROR;
 
-	print $file "% " . $util->get_print_date() . "\n";
-    print $file "% \\subsection[" . $util->get_title($filename) . "]{" . $util->get_title($filename) . "}\\label{subsec:" . $util->get_label ($filename) . "}\n";
-	print $file "\\subsection{" . $util->get_title($filename) . "}\n";
+	print $file "% Document: " . $filename . "\n";
+	print $file "% Date: " . $util->get_print_date() . "\n";
+	print $file "% Author: David McKoskey\n";
 	print $file "\n";
+	print $file "\\begin{song}\n";
+	print $file "\\songtitle{" . $songtitle . "}\n";
 	print $file "\n";
+	print $file "\\end{song}\n";
 
 	close($file);
 
@@ -136,7 +157,7 @@ When the script is executed without any parameters, this function displays scrip
 sub Syntax
 {
 	print "\n";
-	print "\tSyntax: subsection <filename(s)>\n";
+	print "\tSyntax: song <filename(s)>\n";
 	print "\n";
 	print "\tNote: do not use wildcards\n";
 	print "\n";

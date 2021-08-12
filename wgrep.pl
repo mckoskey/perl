@@ -62,6 +62,13 @@ else
 }
 
 
+=pod
+
+=head4 findFiles()
+
+Find the files to search.
+
+=cut
 sub findFiles
 {
 	my $file = $File::Find::name;
@@ -69,6 +76,13 @@ sub findFiles
 }
 
 
+=pod
+
+=head4 hasPattern()
+
+Determine whether or not a line contains a desired pattern (regular expression).  
+
+=cut
 sub hasPattern
 {
 	foreach my $pattern (@filepatterns)
@@ -80,6 +94,13 @@ sub hasPattern
 }
 
 
+=pod
+
+=head4 processFiles()
+
+Process input files.  
+
+=cut
 sub processFiles
 {
 	if($opt_r) { $file = $cwd . substr($_[0], 1); }
@@ -141,6 +162,13 @@ sub processFiles
 }
 
 
+=pod
+
+=head4 syntax()
+
+When the script is executed without any parameters, this function displays script syntax.
+
+=cut
 sub syntax
 {
 	printf ("\n\t wgrep: windowed grep\n");
@@ -159,6 +187,17 @@ sub syntax
 	printf ("\t                  \-r  process all files in tree\n");
 	printf ("\n");
 }
+
+
+=pod
+
+=begin html
+
+</blockquote>
+
+=end html
+
+=cut
 
 #
 # end script

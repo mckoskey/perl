@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 #
-# Name: timer.pl
+# Name: sleep.pl
 # Date: 9 June, 2011
 # Author: David McKoskey
 
@@ -20,7 +20,7 @@
 
 =item *
 
-Name: timer.pl
+Name: sleep.pl
 
 =item *
 
@@ -32,7 +32,7 @@ Author: David McKoskey
 
 =head2 Purpose
 
-Time the execution of another application.  
+Sleep a desired number of seconds.  For use with other scripts.  
 
 
 
@@ -68,43 +68,27 @@ Time the execution of another application.
 =cut
 
 
-if($#ARGV < 0) { Syntax(); exit 0; }
-
 use strict;
 use warnings;
 
-my $command;
+use English;
+$OUTPUT_AUTOFLUSH = 1;
 
-while (@ARGV)
+my $seconds = shift @ARGV;
+
+if(defined($seconds) && $seconds > 0)
 {
-	$command = $command . shift @ARGV;
-	if($#ARGV >= 0) { $command = $command . " "; }
+    print "Sleeping for " . $seconds . " seconds...";
+    sleep $seconds;
+    print " Done.\n";
+}
+else
+{
+    print "\n";
+    print "\tSyntax perl sleep.pl <seconds>\n";
+    print "\n";
 }
 
-print " Executing: \"" . $command . "\"\n";
-print "     Start: ";
-print scalar localtime; # UNIX-style time
-print "\n";
-system($command);
-print "       End: ";
-print scalar localtime; # UNIX-style time
-print "\n";
-
-
-=pod
-
-=head4 syntax()
-
-When the script is executed without any parameters, this function displays script syntax.
-
-=cut
-sub Syntax
-{
-	print "\n";
-	print "    ";
-	print "timer <command>";
-	print "\n";
-}
 
 =pod
 

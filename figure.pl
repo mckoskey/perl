@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 #
-# Name: subsection.pl
+# Name: figure.pl
 # Date: 14 June, 2011
 # Author: David McKoskey
 
@@ -20,7 +20,7 @@
 
 =item *
 
-Name: subsection.pl
+Name: figure.pl
 
 =item *
 
@@ -32,7 +32,7 @@ Author: David McKoskey
 
 =head2 Purpose
 
-Create a LaTeX subsection page.
+Create a LaTeX figure page.
 
 
 
@@ -70,7 +70,6 @@ Create a LaTeX subsection page.
 =cut
 
 
-
 use strict;
 use warnings;
 use lib qw(c:/bin/perl c:/env/bin/perl /home/mckoskey/bin/perl);
@@ -95,6 +94,10 @@ foreach my $filename (@infiles)
 		Syntax();
 	}
 
+    my $label_base = $filename;
+
+	$filename = "figure_" . $filename;
+
 	if(-e $filename)
 	{
 		print "File \"" . $filename . "\" exists, skipping...\n";
@@ -114,11 +117,23 @@ foreach my $filename (@infiles)
 
 	my $file = IO::File->new($filename, ">") or croak "Unable to open \"" . $filename . "\": " . $OS_ERROR;
 
-	print $file "% " . $util->get_print_date() . "\n";
-    print $file "% \\subsection[" . $util->get_title($filename) . "]{" . $util->get_title($filename) . "}\\label{subsec:" . $util->get_label ($filename) . "}\n";
-	print $file "\\subsection{" . $util->get_title($filename) . "}\n";
+	print $file "\\begin{figure}[hptb]\n";
+	print $file "\\begin{center}\n";
+	print $file "\\colorbox{lightgray}{\n";
+	print $file "\\begin{minipage}{\\figurewidth}\n";
+	print $file "\\begin{center}\n";
+	print $file "\\setlength{\\unitlength}{\\figureunitlength}\n";
+	print $file "\\begin{picture}(width, height)\n";
 	print $file "\n";
 	print $file "\n";
+	print $file "\\end{picture}\n";
+	print $file "\\end{center}\n";
+	print $file "\\caption{" . $util->get_title($label_base) . "}\n";
+	print $file "\\label{figure:" . $util->get_label($label_base) . "}\n";
+	print $file "\\end{minipage}\n";
+	print $file "}\n";
+	print $file "\\end{center}\n";
+	print $file "\\end{figure}\n";
 
 	close($file);
 
@@ -136,13 +151,12 @@ When the script is executed without any parameters, this function displays scrip
 sub Syntax
 {
 	print "\n";
-	print "\tSyntax: subsection <filename(s)>\n";
+	print "\tSyntax: figure <filename(s)>\n";
 	print "\n";
 	print "\tNote: do not use wildcards\n";
 	print "\n";
 	exit -1;
 }
-
 
 =pod
 

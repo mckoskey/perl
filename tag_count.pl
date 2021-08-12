@@ -4,6 +4,72 @@
 # Date: 21 June, 2011
 # Author: David McKoskey
 
+=pod
+
+=begin html
+
+<blockquote>
+
+=end html
+
+
+
+=head2 Synopsis
+
+=over 4
+
+=item *
+
+Name: tag_count.pl
+
+=item *
+
+Author: David McKoskey
+
+=back
+
+
+
+=head2 Purpose
+
+Count the number of tags in an HTML or XML file.
+
+
+
+=head2 Revision History
+
+=begin html
+
+<table border="1" style="border-collapse : collapse" cellpadding="10">
+    <tr>
+        <th bgcolor="tan">Name</th>
+        <th bgcolor="tan">Date</th>
+        <th bgcolor="tan">Description</th>
+    </tr>
+    <tr>
+        <td>David McKoskey</td>
+        <td>June 21, 2011</td>
+        <td>Initial Revision</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+</table>
+
+=end html
+
+=head2 Functions
+
+=cut
+
+
 
 use strict;
 use warnings;
@@ -81,6 +147,13 @@ else
 }
 
 
+=pod
+
+=head4 syntax()
+
+When the script is executed without any parameters, this function displays script syntax.
+
+=cut
 sub syntax
 {
     print "\n";
@@ -145,6 +218,13 @@ sub process_files
 }
 
 
+=pod
+
+=head4 start_handler ()
+
+Handle XML start tag.
+
+=cut
 sub start_handler
 {
     my ($parser, $current_tag, %attributes) = @_;
@@ -158,6 +238,13 @@ sub start_handler
 }
 
 
+=pod
+
+=head4 end_handler ()
+
+Handle XML end tag.
+
+=cut
 sub end_handler
 {
     my $parser = shift;
@@ -165,6 +252,13 @@ sub end_handler
 }
 
 
+=pod
+
+=head4 char_handler ()
+
+Handle XML text.
+
+=cut
 sub char_handler
 {
     my $parser = shift;
@@ -172,11 +266,29 @@ sub char_handler
 }
 
 
+=pod
+
+=head4 default_handler ()
+
+Handle all other XML elements.
+
+=cut
 sub default_handler
 {
     my $parser = shift;
     my $data   = shift;
 }
+
+
+=pod
+
+=begin html
+
+</blockquote>
+
+=end html
+
+=cut
 
 #
 # end script

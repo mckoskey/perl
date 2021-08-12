@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 #
-# Name: page.pl
-# Date: 9 June, 2011
+# Name: php.pl
+# Date: 27 November, 2013
 # Author: David McKoskey
 
 =pod
@@ -48,7 +48,7 @@ Create a template web page with a specified name.
     </tr>
     <tr>
         <td>David McKoskey</td>
-        <td>June 9, 2011</td>
+        <td>November 27, 2013</td>
         <td>Initial Revision</td>
     </tr>
     <tr>
@@ -102,9 +102,9 @@ foreach my $filename (@infiles)
 		next;
 	}
 
-	if($filename !~ /\.html/)
+	if($filename !~ /\.php/)
 	{
-		$filename = $filename . ".html";
+		$filename = $filename . ".php";
 	}
 
 	if(-e $filename)
@@ -116,79 +116,77 @@ foreach my $filename (@infiles)
 	my $file = IO::File->new($filename, ">") or croak "Unable to open \"" . $filename . "\": " . $OS_ERROR;
 
 	print $file "<html>\n";
-	print $file "    <head>\n";
-	print $file "        <title>" . $util->get_title($filename) . "</title>\n";
-	print $file "        <link rel=\"stylesheet\" type=\"text/css\" href=\"http://www.mckoskey.com/css/default.css\"/>\n";
+	print $file "<head>\n";
+	print $file "<title>" . $util->get_title($filename) . "</title>\n";
+	print $file "<link rel=\"stylesheet\" type=\"text/css\" href=\"default.css\"/>\n";
 
-	print $file "    </head>\n";
-	print $file "    <body>\n";
+	print $file "</head>\n";
+	print $file "<body>\n";
 	print $file "\n";
-	print $file "    <h3>" . $util->get_title($filename) . "</h3>\n";
+	print $file "<h3>" . $util->get_title($filename) . "</h3>\n";
 	print $file "\n";
 
 	if($opt_c)
 	{
-		print $file "    <a name=\"contents\"><h4>Contents</h4></a>\n";
-		print $file "    <ul>\n";
-		print $file "        <li><a href=\"#introduction\">Introduction</a></li>\n";
-		print $file "        <li><a href=\"#\"></a></li>\n";
-		print $file "        <li><a href=\"#\"></a></li>\n";
-		print $file "        <li><a href=\"#references\">References</a></li>\n";
-		print $file "    </ul>\n";
+		print $file "<a name=\"contents\"><h4>Contents</h4></a>\n";
+		print $file "<ul>\n";
+		print $file "\t<li><a href=\"#introduction\">Introduction</a></li>\n";
+		print $file "\t<li><a href=\"#\"></a></li>\n";
+		print $file "\t<li><a href=\"#\"></a></li>\n";
+		print $file "\t<li><a href=\"#references\">References</a></li>\n";
+		print $file "</ul>\n";
 		print $file "\n";
-		print $file "    <a name=\"introduction\"><h4>Introduction</h4></a>\n";
+		print $file "<a name=\"introduction\"><h4>Introduction</h4></a>\n";
 		print $file "\n";
-		print $file "    <p></p>\n";
+		print $file "<p></p>\n";
 		print $file "\n";
-		print $file "    <p></p>\n";
+		print $file "<p></p>\n";
 		print $file "\n";
-		print $file "    <a href=\"#contents\">Back to Contents</a>\n";
+		print $file "<a href=\"#contents\">Back to Contents</a>\n";
 		print $file "\n";
-		print $file "    <a name=\"\"><h4></h4></a>\n";
+		print $file "<a name=\"\"><h4></h4></a>\n";
 		print $file "\n";
-		print $file "    <p></p>\n";
+		print $file "<p></p>\n";
 		print $file "\n";
-		print $file "    <p></p>\n";
+		print $file "<p></p>\n";
 		print $file "\n";
-		print $file "    <a href=\"#contents\">Back to Contents</a>\n";
+		print $file "<a href=\"#contents\">Back to Contents</a>\n";
 		print $file "\n";
-		print $file "    <a name=\"\"><h4></h4></a>\n";
+		print $file "<a name=\"\"><h4></h4></a>\n";
 		print $file "\n";
-		print $file "    <p></p>\n";
+		print $file "<p></p>\n";
 		print $file "\n";
-		print $file "    <p></p>\n";
+		print $file "<p></p>\n";
 		print $file "\n";
-		print $file "    <a href=\"#contents\">Back to Contents</a>\n";
+		print $file "<a href=\"#contents\">Back to Contents</a>\n";
 		print $file "\n";
-		print $file "    <a name=\"references\"><h4>References</h4></a>\n";
+		print $file "<a name=\"references\"><h4>References</h4></a>\n";
 		print $file "\n";
-		print $file "    <p></p>\n";
+		print $file "<p></p>\n";
 		print $file "\n";
-		print $file "    <p></p>\n";
+		print $file "<p></p>\n";
 		print $file "\n";
-		print $file "    <a href=\"#contents\">Back to Contents</a>\n";
+		print $file "<a href=\"#contents\">Back to Contents</a>\n";
 	}
 	else
 	{
-		print $file "    <h4></h4>\n";
+		print $file "<p></p>\n";
 		print $file "\n";
-		print $file "    <p></p>\n";
+		print $file "<p></p>\n";
 		print $file "\n";
-		print $file "    <p></p>\n";
+		print $file "<?php\n";
 		print $file "\n";
-		print $file "    <h4></h4>\n";
 		print $file "\n";
-		print $file "    <p></p>\n";
 		print $file "\n";
-		print $file "    <p></p>\n";
+		print $file "?>\n";
 	}
 	print $file "\n";
-	print $file "    </body>\n";
+	print $file "</body>\n";
 	print $file "</html>\n";
 
 	close($file);
 
-	print "    \"" . $filename . "\" created.\n";
+	print "\t\"" . $filename . "\" created.\n";
 }
 
 

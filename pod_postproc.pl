@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 #
-# Name: timer.pl
+# Name: pod_postproc.pl
 # Date: 9 June, 2011
 # Author: David McKoskey
 
@@ -20,7 +20,7 @@
 
 =item *
 
-Name: timer.pl
+Name: pod_postproc.pl
 
 =item *
 
@@ -32,7 +32,7 @@ Author: David McKoskey
 
 =head2 Purpose
 
-Time the execution of another application.  
+Postprocess HTML output files from the "perldoc" utility.  Removes links and META tags, and indents the HTML for easy reading.  
 
 
 
@@ -65,46 +65,29 @@ Time the execution of another application.
 
 =end html
 
+=head2 Functions
+
 =cut
 
-
-if($#ARGV < 0) { Syntax(); exit 0; }
 
 use strict;
 use warnings;
 
-my $command;
+my @infilenames = glob($ARGV[0]);
 
-while (@ARGV)
+foreach my $infilename (@infilenames)
 {
-	$command = $command . shift @ARGV;
-	if($#ARGV >= 0) { $command = $command . " "; }
+    next if $infilename =~ /index\.html/;
+
+    print "grep -vi \"<meta\" " . $infilename . " > temp.html\n";
+    print "copy temp.html " . $infilename . "\n";
+    print "del temp.html\n";
+    print "\n";
+    print "call indent_xml -rs " . $infilename . "\n";
+    print "\n";
+    print "\n";
 }
 
-print " Executing: \"" . $command . "\"\n";
-print "     Start: ";
-print scalar localtime; # UNIX-style time
-print "\n";
-system($command);
-print "       End: ";
-print scalar localtime; # UNIX-style time
-print "\n";
-
-
-=pod
-
-=head4 syntax()
-
-When the script is executed without any parameters, this function displays script syntax.
-
-=cut
-sub Syntax
-{
-	print "\n";
-	print "    ";
-	print "timer <command>";
-	print "\n";
-}
 
 =pod
 
